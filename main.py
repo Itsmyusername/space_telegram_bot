@@ -5,7 +5,7 @@ from glob import glob
 from environs import Env
 
 from bot import send_images_to_telegram
-from image_download import parse_arguments
+from parse_arg import parse_arguments
 
 
 if __name__ == "__main__":
