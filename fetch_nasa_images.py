@@ -4,7 +4,8 @@ from pathlib import Path
 import requests
 from environs import Env
 
-from image_download import parse_arguments, save_images
+from image_download import save_images
+from parse_arg import parse_arguments
 
 
 def fetch_random_nasa_apod_image_urls(api_key, count=10):
