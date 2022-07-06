@@ -9,7 +9,7 @@ from image_download import parse_arguments, save_images
 
 def fetch_random_nasa_apod_image_urls(api_key, count=10):
     image_urls = []
-    while len(image_urls) < count:
+    for _ in range(10):
         response = requests.get(
             "https://api.nasa.gov/planetary/apod",
             params={"api_key": api_key, "count": count},
