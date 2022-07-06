@@ -1,8 +1,8 @@
 from pathlib import Path
-
+import argparse
 import requests
 
-from image_download import parse_arguments, save_images
+from image_download import save_images
 
 
 def fetch_spacex_latest_launch_image_urls():
@@ -12,10 +12,14 @@ def fetch_spacex_latest_launch_image_urls():
 
 
 if __name__ == "__main__":
-    args = parse_arguments(
-        "The script allows you to download images from SpaceX API."
+    args = "The script allows you to download images from NASA API."
+    parser = argparse.ArgumentParser(description=args)
+    parser.add_argument(
+        "--image-dir",
+        help="A path to images folder",
+        default="./images",
     )
-    image_dir = args.image_dir
+    image_dir = parser.image_dir
 
     try:
         Path(image_dir).mkdir(parents=True, exist_ok=True)

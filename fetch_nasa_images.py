@@ -1,10 +1,12 @@
 from datetime import datetime
 from pathlib import Path
-
-import requests
 from environs import Env
+from urllib.parse import unquote, urlsplit
+import argparse
+import requests
 
-from image_download import parse_arguments, save_images
+
+from image_download import save_images
 
 
 def fetch_random_nasa_apod_image_urls(api_key, count=10):
@@ -40,10 +42,14 @@ def fetch_nasa_epic_image_urls(api_key):
 
 
 if __name__ == "__main__":
-    args = parse_arguments(
-        "The script allows you to download images from NASA API."
+    args = "The script allows you to download images from NASA API."
+    parser = argparse.ArgumentParser(description=args)
+    parser.add_argument(
+        "--image-dir",
+        help="A path to images folder",
+        default="./images",
     )
-    image_dir = args.image_dir
+    image_dir = parser.image_dir
 
     env = Env()
     env.read_env()

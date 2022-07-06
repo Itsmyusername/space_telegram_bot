@@ -5,16 +5,6 @@ from urllib.parse import unquote, urlsplit
 import requests
 
 
-def parse_arguments(description):
-    parser = argparse.ArgumentParser(description=description)
-    parser.add_argument(
-        "--image-dir",
-        help="A path to images folder",
-        default="./images",
-    )
-    return parser.parse_args()
-
-
 def save_image_from_url(url, save_path, params=None):
     response = requests.get(url, params=params)
     response.raise_for_status()
