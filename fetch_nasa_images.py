@@ -55,17 +55,6 @@ if __name__ == "__main__":
     env.read_env()
     nasa_api_key = env.str("NASA_API_KEY")
 
-    try:
-        Path(image_dir).mkdir(parents=True, exist_ok=True)
-    except PermissionError as err:
-        exit(err)
-    
-    try:
-        nasa_apod_image_urls = fetch_random_nasa_apod_image_urls(nasa_api_key)
-        nasa_epic_image_urls = fetch_nasa_epic_image_urls(nasa_api_key)
-    except requests.exceptions.HTTPError as err:
-        exit(err)
-
     save_images(nasa_apod_image_urls, image_dir, "nasa_apod")
     save_images(
         nasa_epic_image_urls, image_dir, "nasa_epic", {"api_key": nasa_api_key}
