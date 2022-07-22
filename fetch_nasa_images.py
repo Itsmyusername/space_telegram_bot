@@ -11,16 +11,17 @@ from image_download import save_images
 
 def fetch_random_nasa_apod_image_urls(api_key, count=10):
     image_urls = []
-    while len(image_urls) < count:
-        response = requests.get(
-            "https://api.nasa.gov/planetary/apod",
-            params={"api_key": api_key, "count": count},
-        )
-        response.raise_for_status()
-        for apod in response.json():
-            if apod["media_type"] == "image":
-                image_urls.append(apod["url"])
-    return image_urls[:count]
+    if count <= 10:
+        while len(image_urls) < count:
+            response = requests.get(
+                "https://api.nasa.gov/planetary/apod",
+                params={"api_key": api_key, "count": count},
+            )
+            response.raise_for_status()
+            for apod in response.json():
+                if apod["media_type"] == "image":
+                    image_urls.append(apod["url"])
+        return image_urls[:count]
 
 
 def fetch_nasa_epic_image_urls(api_key):
