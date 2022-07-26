@@ -20,7 +20,7 @@ def fetch_random_nasa_apod_image_urls(api_key):
     for apod in response.json():
         if apod["media_type"] == "image":
             image_urls.append(apod["url"])
-    return image_urls[:counts_of_apod]
+    return image_urls
 
 
 def fetch_nasa_epic_image_urls(api_key):
