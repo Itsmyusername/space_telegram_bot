@@ -51,10 +51,14 @@ if __name__ == "__main__":
         default="./images",
     )
     image_dir = parser.image_dir
-
+    Path(image_dir).mkdir(parents=True, exist_ok=True)
+    spacex_image_urls = fetch_spacex_latest_launch_image_urls()
     env = Env()
     env.read_env()
     nasa_api_key = env.str("NASA_API_KEY")
+    Path(image_dir).mkdir(parents=True, exist_ok=True)
+    nasa_apod_image_urls = fetch_random_nasa_apod_image_urls(nasa_api_key)
+    nasa_epic_image_urls = fetch_nasa_epic_image_urls(nasa_api_key)
 
     save_images(nasa_apod_image_urls, image_dir, "nasa_apod")
     save_images(
