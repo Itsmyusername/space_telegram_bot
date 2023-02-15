@@ -21,14 +21,4 @@ if __name__ == "__main__":
     )
     image_dir = parser.image_dir
 
-    try:
-        Path(image_dir).mkdir(parents=True, exist_ok=True)
-    except PermissionError as err:
-        exit(err)
-    
-    try:
-        spacex_image_urls = fetch_spacex_latest_launch_image_urls()
-    except requests.exceptions.HTTPError as err:
-        exit(err)
-
     save_images(spacex_image_urls, image_dir, "spacex")

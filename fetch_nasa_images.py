@@ -9,18 +9,18 @@ import requests
 from image_download import save_images
 
 
-def fetch_random_nasa_apod_image_urls(api_key, count=10):
+def fetch_random_nasa_apod_image_urls(api_key):
     image_urls = []
-    for _ in range(10):
-        response = requests.get(
-            "https://api.nasa.gov/planetary/apod",
-            params={"api_key": api_key, "count": count},
-        )
-        response.raise_for_status()
-        for apod in response.json():
-            if apod["media_type"] == "image":
-                image_urls.append(apod["url"])
-    return image_urls[:count]
+    counts_of_apod = 10
+    response = requests.get(
+        "https://api.nasa.gov/planetary/apod",
+        params={"api_key": api_key, "count": counts_of_apod},
+    )
+    response.raise_for_status()
+    for apod in response.json():
+        if apod["media_type"] == "image":
+            image_urls.append(apod["url"])
+    return image_urls
 
 
 def fetch_nasa_epic_image_urls(api_key):
@@ -50,21 +50,14 @@ if __name__ == "__main__":
         default="./images",
     )
     image_dir = parser.image_dir
-
+    Path(image_dir).mkdir(parents=True, exist_ok=True)
+    spacex_image_urls = fetch_spacex_latest_launch_image_urls()
     env = Env()
     env.read_env()
     nasa_api_key = env.str("NASA_API_KEY")
-
-    try:
-        Path(image_dir).mkdir(parents=True, exist_ok=True)
-    except PermissionError as err:
-        exit(err)
-    
-    try:
-        nasa_apod_image_urls = fetch_random_nasa_apod_image_urls(nasa_api_key)
-        nasa_epic_image_urls = fetch_nasa_epic_image_urls(nasa_api_key)
-    except requests.exceptions.HTTPError as err:
-        exit(err)
+    Path(image_dir).mkdir(parents=True, exist_ok=True)
+    nasa_apod_image_urls = fetch_random_nasa_apod_image_urls(nasa_api_key)
+    nasa_epic_image_urls = fetch_nasa_epic_image_urls(nasa_api_key)
 
     save_images(nasa_apod_image_urls, image_dir, "nasa_apod")
     save_images(
